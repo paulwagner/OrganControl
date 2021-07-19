@@ -2,8 +2,8 @@
 
 #include <Arduino.h>
 
-// Only print events over serial output, deactivate MIDI
-#define PRINT_OUTPUT
+// LED test mode
+#define TEST_LEDS
 
 // Reverse a byte
 inline byte reverse(byte b) {

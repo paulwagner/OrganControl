@@ -4,32 +4,34 @@
 #include "SwitchesInput.hpp"
 #include "LEDsOutput.hpp"
 
-// For debugging
+#include <DueTimer.h>
+
+// For LED testing
 int testRow = 0;
+void isr_test_led() {
+  testRow = (testRow + 1) % 5; // Only 5 digits
+}
 
 void setup() {
+  Serial.begin(19200);
+
   initLEDs();
-  
   initSwitches();
   initPedal();
   initMidi();
 
-#ifdef PRINT_OUTPUT
-  Serial.begin(19200);
-#endif
+  Timer6.attachInterrupt(isr_test_led).setFrequency(2).start();
 }
 
 void loop() {
   sendAllSwitches();
   sendPedalNotes();
   checkMidiData();
-  
-#ifndef PRINT_OUTPUT
+
   // Delay a little to keep the load down.
-  delay(1);
-#else
+  delay(2);
+  
+#ifdef TEST_LEDS
   testLEDRow(testRow, 0xFF);
-  testRow = (testRow + 1) % 5; // Only 5 digits
-  delay(500);
 #endif
 }

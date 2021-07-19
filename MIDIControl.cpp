@@ -1,12 +1,11 @@
 #include "MidiControl.hpp"
 
+#include <USB-MIDI.h>
 #include "LEDsOutput.hpp"
 
-#ifndef PRINT_OUTPUT
-#include <USB-MIDI.h>
+// MIDI USB driver instance
 USBMIDI_CREATE_DEFAULT_INSTANCE();
 using namespace MIDI_NAMESPACE;
-#endif
 
 // MIDI callback definitions
 void clbkHandleNoteOn(byte channel, byte note, byte velocity);
@@ -14,39 +13,34 @@ void clbkHandleNoteOff(byte channel, byte note, byte velocity);
 void clbkHandleSystemExclusive(byte* data, unsigned int arraySize);
 
 void initMidi() {
-#ifndef PRINT_OUTPUT
+#ifndef TEST_LEDS
   MIDI.setHandleNoteOn(clbkHandleNoteOn);
   MIDI.setHandleNoteOff(clbkHandleNoteOff);
   MIDI.setHandleSystemExclusive(clbkHandleSystemExclusive);
-  MIDI.begin(MIDI_CHANNEL_OMNI);
 #endif
+
+  MIDI.begin(MIDI_CHANNEL_OMNI);
 }
 
 void checkMidiData() {
-#ifndef PRINT_OUTPUT
   MIDI.read();
-#endif  
 }
 
 void sendNoteOn(byte note, byte channel) {
-#ifndef PRINT_OUTPUT
   MIDI.sendNoteOn(note, 127, channel);
-#else
+
   Serial.print("SendNoteOn: ");
   Serial.print(note);
   Serial.print(", Channel: ");
   Serial.println(channel);
-#endif
 }
 void sendNoteOff(byte note, byte channel) {
-#ifndef PRINT_OUTPUT
   MIDI.sendNoteOff(note, 127, channel);
-#else
+
   Serial.print("SendNoteOff: ");
   Serial.print(note);
   Serial.print(", Channel: ");
   Serial.println(channel);
-#endif 
 }
 
 void sendPedalNote(byte note, bool on) {
@@ -66,14 +60,12 @@ void sendPiston(byte number, bool on) {
 void sendSwellerValue(byte value, byte channel) {
  // Use foot controller CC==0x04
  const byte controllerNumber = 0x04;
-#ifndef PRINT_OUTPUT
   MIDI.sendControlChange(controllerNumber, value, channel);
-#else
+
   Serial.print("SendSweller");
   Serial.print(channel);
   Serial.print(": ");
   Serial.println(value);
-#endif
 }
 
 void sendSweller1Value(byte value) {
@@ -97,7 +89,7 @@ void clbkHandleNoteOff(byte channel, byte note, byte velocity) {
 
 void clbkHandleSystemExclusive(byte* data, unsigned int arraySize) {
   // TODO: It probably won't work doing this in the callback directly. Use a synchronized buffer instead?
-  
+
   if (data[3] != 1)
     return; // Not the right display id
 
