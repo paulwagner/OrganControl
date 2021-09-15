@@ -4,10 +4,10 @@
 
 #define GET_NOTE(i,j) (36 + (8*j) + i)
 
-static int PINS_MINUS[] = {28, 26, 24, 22};
-static int PINS_MINUS_SIZE = 4;
-static int PINS_PLUS[] = {46, 44, 42, 40, 38, 36, 34, 32};
+static int PINS_PLUS[] = {22, 24, 26, 28, 30, 32, 34, 36};
 static int PINS_PLUS_SIZE = 8;
+static int PINS_MINUS[] = {38, 40, 42, 44};
+static int PINS_MINUS_SIZE = 4;
 
 static int NOTES_ON_TABLE[8][4];
 
@@ -35,7 +35,7 @@ void sendPedalNotes() {
     // Now loop over the minus poles and do the measurements
     for(int j = 0; j < PINS_MINUS_SIZE; j++) {
       if(j == 3 && i >= 6) {
-        continue; // Unused combinations
+        continue; // 30 note keyboard: no fis' and g'
       }
       
       int m = digitalRead(PINS_MINUS[j]);
