@@ -10,7 +10,7 @@
 // Footstack:             1 byte
 // Switches L:            4 byte
 // Switches R:            4 byte
-#define SWITCHES_BYTES    2
+#define SWITCHES_BYTES    3
 
 #define NO_SWELLERS       2
 #define PIN_SWELLER1      A0
