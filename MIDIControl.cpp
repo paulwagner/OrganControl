@@ -103,7 +103,7 @@ void clbkHandleSystemExclusive(byte* data, unsigned int arraySize) {
   // TODO: It probably won't work doing this in the callback directly. Use a synchronized buffer instead?
 
   if (data[3] != 1)
-    return; // Not the right display id
+    return; // Not the right sysex id
 
   // Find start of data field
   int i = 0;
