@@ -11,13 +11,11 @@
 // Switches L:            4 byte
 // Switches R:            4 byte
 #define SWITCHES_BYTES    3
+extern const int PINS_SWITCHES[3];
 
 #define NO_SWELLERS       2
 #define PIN_SWELLER1      A0
 #define PIN_SWELLER2      A1
-
-extern const int PINS_SWITCHES[3];
-
 
 /* LEDs */
 
@@ -25,5 +23,4 @@ extern const int PINS_SWITCHES[3];
 // Left stops         1 IC
 // Right stops:       1 IC
 #define LED_NR_ICS    1
-
 extern const int PINS_LEDS[3];

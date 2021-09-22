@@ -2,7 +2,8 @@
 
 #include <Arduino.h>
 
-// LED test mode
+// Test modes
+#define TEST_MIDI
 #define TEST_LEDS
 
 // Reverse a byte

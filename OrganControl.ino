@@ -4,13 +4,11 @@
 #include "SwitchesInput.hpp"
 #include "LEDsOutput.hpp"
 
-#include <DueTimer.h>
-
-// For LED testing
-int testRow = 0;
-void isr_test_led() {
-  testRow = (testRow + 1) % 5; // Only 5 digits
-}
+#ifdef TEST_LEDS
+  int testRow = 0;
+  const long testDelay = 500; // in ms
+  long lastTimestamp = 0;
+#endif
 
 void setup() {
   Serial.begin(19200);
@@ -19,19 +17,18 @@ void setup() {
   initSwitches();
   initPedal();
   initMidi();
-
-  Timer6.attachInterrupt(isr_test_led).setFrequency(2).start();
 }
 
 void loop() {
   sendAllSwitches();
   sendPedalNotes();
   checkMidiData();
-
-  // Delay a little to keep the load down.
-  delay(2);
   
 #ifdef TEST_LEDS
-  testLEDRow(testRow, 0xFF);
+  if((millis() - lastTimestamp) > testDelay) {
+    testRow = (testRow + 1) % 5; // Only 5 digits
+    testLEDRow(testRow, 0xFF);
+    lastTimestamp = millis();
+  }
 #endif
 }
