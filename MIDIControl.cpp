@@ -29,7 +29,9 @@
     MIDI.read();
   }
 #else
-  void initMidi(){}
+  void initMidi(){
+    Serial.begin(19200);
+  }
   void checkMidiData(){}
 #endif
 
