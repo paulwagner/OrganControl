@@ -6,9 +6,9 @@
 LedControl leds = LedControl(PINS_LEDS[DATA], PINS_LEDS[CLOCK], PINS_LEDS[LATCH], LED_NR_ICS);
 
 void initLEDs() {
-  // Keystack IC uses 5 digits with medium intensity
+  // Keystack IC uses 5 digits with high intensity
   leds.setScanLimit(0,5);
-  leds.setIntensity(0,10);
+  leds.setIntensity(0,15);
   
   // Stop ICs use 4 digits with high intensity
   for(int i = 1; i < LED_NR_ICS; i++) {
@@ -47,7 +47,20 @@ void set7SegsOutput(int digit, byte character) {
   leds.setChar(0, digit + 2, character, false);
 }
 
-void testLEDRow(int row, byte b) {
-  for(int i = 0; i < LED_NR_ICS; i++)
-    leds.setRow(i, row, b);
+void testLEDs(int testDigit, int testColumn) {
+  clearLEDs();
+  // Key stack
+  for(int row = 0; row < 2; row++)
+    leds.setLed(0, row, testColumn, true);
+  // 7Segs
+  for(int row = 2; row < 5; row++)
+    leds.setDigit(0, row, testDigit, false);
+  /*
+  // Left
+  for(int row = 0; row < 4; i++)
+    leds.setLed(1, row, testCol, true);
+  // Right
+  for(int row = 0; row < 4; i++)
+    leds.setLed(2, row, testCol, true);
+    */
 }

@@ -11,4 +11,4 @@ void setLEDOutput(int number, bool on);     // Numbers equivalent to MIDI notes 
                                             // Number 56-87: Right stops
 void set7SegsOutput(int digit, byte character);
 
-void testLEDRow(int row, byte b);
+void testLEDs(int testDigit, int testColumn);
