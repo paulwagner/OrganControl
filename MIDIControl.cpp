@@ -3,7 +3,7 @@
 #include "LEDsOutput.hpp"
 
 #ifndef TEST_MIDI
-  // MIDI USB driver instance
+  // MIDI driver instance
   #include <MIDI.h>
   struct MySettings : public midi::DefaultSettings {
     static const long BaudRate = 115200; // Use hairless-midiserial

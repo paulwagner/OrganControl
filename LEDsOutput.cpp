@@ -58,9 +58,9 @@ void testLEDs(int testDigit, int testColumn) {
   /*
   // Left
   for(int row = 0; row < 4; i++)
-    leds.setLed(1, row, testCol, true);
+    leds.setLed(1, row, testColumn, true);
   // Right
   for(int row = 0; row < 4; i++)
-    leds.setLed(2, row, testCol, true);
+    leds.setLed(2, row, testColumn, true);
     */
 }

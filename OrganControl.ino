@@ -7,7 +7,7 @@
 #ifdef TEST_LEDS
   int testDigit = 0;
   int testColumn = 0;
-  const long testDelay = 200; // in ms
+  const long testDelay = 300; // in ms
   long lastTest = 0;
 #endif
 
