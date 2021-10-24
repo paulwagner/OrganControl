@@ -1,8 +1,8 @@
 #include "Commons.hpp"
+#include "LEDsOutput.hpp"
 #include "MIDIControl.hpp"
 #include "PedalControl.hpp"
 #include "SwitchesInput.hpp"
-#include "LEDsOutput.hpp"
 
 #ifdef TEST_LEDS
   int testDigit = 0;

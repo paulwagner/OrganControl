@@ -23,6 +23,7 @@
   #endif
   
     MIDI.begin(MIDI_CHANNEL_OMNI);
+    MIDI.turnThruOff();
   }
   
   void checkMidiData() {
@@ -30,7 +31,7 @@
   }
 #else
   void initMidi(){
-    Serial.begin(19200);
+    Serial.begin(115200);
   }
   void checkMidiData(){}
 #endif
@@ -92,12 +93,10 @@ void sendSweller2Value(byte value) {
 }
 
 void clbkHandleNoteOn(byte channel, byte note, byte velocity) {
-  // TODO: It probably won't work doing this in the callback directly. Use a synchronized buffer instead?
   setLEDOutput(note, true);
 }
 
 void clbkHandleNoteOff(byte channel, byte note, byte velocity) {
-  // TODO: It probably won't work doing this in the callback directly. Use a synchronized buffer instead?
   setLEDOutput(note, false);
 }
 
