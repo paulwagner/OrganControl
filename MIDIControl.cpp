@@ -13,17 +13,17 @@
   // MIDI callback definitions
   void clbkHandleNoteOn(byte channel, byte note, byte velocity);
   void clbkHandleNoteOff(byte channel, byte note, byte velocity);
-  void clbkHandleSystemExclusive(byte* data, unsigned int arraySize);
+  void clbkHandleSystemExclusive(byte* data, unsigned int dataSize);
   
   void initMidi() {
+    MIDI.begin(3);
+    MIDI.turnThruOff();
+
   #ifndef TEST_LEDS
     MIDI.setHandleNoteOn(clbkHandleNoteOn);
     MIDI.setHandleNoteOff(clbkHandleNoteOff);
     MIDI.setHandleSystemExclusive(clbkHandleSystemExclusive);
   #endif
-  
-    MIDI.begin(MIDI_CHANNEL_OMNI);
-    MIDI.turnThruOff();
   }
   
   void checkMidiData() {
@@ -100,22 +100,11 @@ void clbkHandleNoteOff(byte channel, byte note, byte velocity) {
   setLEDOutput(note, false);
 }
 
-void clbkHandleSystemExclusive(byte* data, unsigned int arraySize) {
-  // TODO: It probably won't work doing this in the callback directly. Use a synchronized buffer instead?
-
-  if (data[3] != 1)
+void clbkHandleSystemExclusive(byte* data, unsigned int dataSize) {
+  if(dataSize < 8 || data[3] != 1)
     return; // Not the right sysex id
 
-  // Find start of data field
-  int i = 0;
-  while(data[i] != 125 && i < arraySize)
-    i++;
-
-  // Get sequencer number
-  int digit = 2;
-  while(digit >= 0 && i < arraySize) {
-    set7SegsOutput(digit, data[i]);
-    digit--;
-    i++;
-  }
+  set7SegsOutput(0, data[4]);
+  set7SegsOutput(1, data[5]);
+  set7SegsOutput(2, data[6]);
 }
