@@ -104,7 +104,7 @@ void clbkHandleSystemExclusive(byte* data, unsigned int dataSize) {
   if(dataSize < 8 || data[3] != 1)
     return; // Not the right sysex id
 
-  set7SegsOutput(0, data[4]);
+  set7SegsOutput(2, data[4]);
   set7SegsOutput(1, data[5]);
-  set7SegsOutput(2, data[6]);
+  set7SegsOutput(0, data[6]);
 }
