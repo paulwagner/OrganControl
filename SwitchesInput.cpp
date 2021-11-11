@@ -15,8 +15,8 @@ bool _current_prev_toggle = false;
 // Input and previous bytes for polling of digital switch values
 byte valuesSwitches[2][SWITCHES_BYTES];
 
-// Input bytes for swellers
-byte valuesSwellers[2][NO_SWELLERS];
+// Sent bytes for swellers
+byte valuesSwellersSent[NO_SWELLERS];
 
 void initSwitches() {
   pinMode(PINS_SWITCHES[DATA], INPUT);
@@ -27,7 +27,7 @@ void initSwitches() {
   pinMode(PIN_SWELLER2, INPUT);
 
   memset(valuesSwitches, 0x0, sizeof(valuesSwitches));
-  memset(valuesSwellers, 0x0, sizeof(valuesSwellers));
+  memset(valuesSwellersSent, 0x0, sizeof(valuesSwellersSent));
 }
 
 void sendAllSwitches() {
@@ -51,20 +51,21 @@ void sendAllSwitches() {
     }
   }
 
-/*
   // Poll all analog values
-  valuesSwellers[CURRENT][0] = (byte) analogRead(PIN_SWELLER1) / 8;
-  valuesSwellers[CURRENT][1] = (byte) analogRead(PIN_SWELLER2) / 8;
+  int sweller1_i = analogRead(PIN_SWELLER1);
+  byte sweller1 = (byte) max(0, min(255, map(sweller1_i, 130, 970, 0, 255)));
+  int sweller2_i = analogRead(PIN_SWELLER2);
+  byte sweller2 = (byte) max(0, min(255, map(sweller2_i, 80, 965, 0, 255)));
 
   // Send sweller values
-  if(valuesSwellers[CURRENT][0] != valuesSwellers[PREV][0])
-    sendSweller1Value(valuesSwellers[CURRENT][0]);
-  if(valuesSwellers[CURRENT][1] != valuesSwellers[PREV][1])
-    sendSweller2Value(valuesSwellers[CURRENT][1]);
-
-  // TODO: Also display sweller values on LCD display
-
-  */
+  if(abs((int)sweller1 - (int)valuesSwellersSent[0]) > 2) {
+    sendSweller1Value(sweller1);
+    valuesSwellersSent[0] = sweller1;
+  }
+  if(abs((int)sweller2 - (int)valuesSwellersSent[1]) > 2) {
+    sendSweller2Value(sweller2);
+    valuesSwellersSent[1] = sweller2;
+  }
 }
 
 inline byte shiftIn(int dataPin, int clockPin) {
