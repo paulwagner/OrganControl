@@ -53,16 +53,18 @@ void sendAllSwitches() {
 
   // Poll all analog values
   int sweller1_i = analogRead(PIN_SWELLER1);
-  byte sweller1 = (byte) max(0, min(255, map(sweller1_i, 130, 970, 0, 255)));
+  byte sweller1 = (byte) max(0, min(127, map(sweller1_i, 285, 960, 0, 127)));
   int sweller2_i = analogRead(PIN_SWELLER2);
-  byte sweller2 = (byte) max(0, min(255, map(sweller2_i, 80, 965, 0, 255)));
+  byte sweller2 = (byte) max(0, min(127, map(sweller2_i, 285, 934, 0, 127)));
 
   // Send sweller values
   if(abs((int)sweller1 - (int)valuesSwellersSent[0]) > 2) {
+    //Serial.println(sweller1_i);
     sendSweller1Value(sweller1);
     valuesSwellersSent[0] = sweller1;
   }
   if(abs((int)sweller2 - (int)valuesSwellersSent[1]) > 2) {
+    //Serial.println(sweller2_i);
     sendSweller2Value(sweller2);
     valuesSwellersSent[1] = sweller2;
   }
