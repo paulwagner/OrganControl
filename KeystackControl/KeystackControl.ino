@@ -1,7 +1,6 @@
 #include "Commons.hpp"
 #include "LEDsOutput.hpp"
 #include "MIDIControl.hpp"
-#include "PedalControl.hpp"
 #include "SwitchesInput.hpp"
 
 #ifdef TEST_LEDS
@@ -12,15 +11,16 @@
 #endif
 
 void setup() {
+  Serial.begin(115200);
+  while(!Serial);
+
   initLEDs();
   initSwitches();
-  initPedal();
   initMidi();
 }
 
 void loop() {
   sendAllSwitches();
-  sendPedalNotes();
   checkMidiData();
 
 #ifdef TEST_LEDS

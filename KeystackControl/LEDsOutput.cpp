@@ -9,13 +9,6 @@ void initLEDs() {
   // Keystack IC uses 5 digits with high intensity
   leds.setScanLimit(0,5);
   leds.setIntensity(0,15);
-  
-  // Stop ICs use 4 digits with high intensity
-  for(int i = 1; i < LED_NR_ICS; i++) {
-    //leds.setScanLimit(i,4);
-    //leds.setIntensity(i,15);
-  }
-
   clearLEDs();
 }
 
@@ -27,20 +20,12 @@ void clearLEDs() {
 }
 
 void setLEDOutput(int number, bool on) {
-  int ic = 0; // Keystack
-  if(number >= 16 && number <= 23) {
-    // Footer pistons -> no output
-    return;
-  } else if(number >= 24 && number <= 55) {
-    ic = 1; // Left stops
-    number -= 24;
-  } else if(number >= 56 && number <= 87) {
-    ic = 2; // Right stops
-    number -= 56;
-  }
+  if(number < 0 || number > 15)
+    return; // Invalid LED number
+  
   int row = number / 8;
   int col = number % 8;
-  leds.setLed(ic, row, col, on);
+  leds.setLed(0, row, col, on);
 }
 
 void set7SegsOutput(int digit, byte character) {
@@ -55,12 +40,4 @@ void testLEDs(int testDigit, int testColumn) {
   // 7Segs
   for(int row = 2; row < 5; row++)
     leds.setDigit(0, row, testDigit, false);
-  /*
-  // Left
-  for(int row = 0; row < 4; i++)
-    leds.setLed(1, row, testColumn, true);
-  // Right
-  for(int row = 0; row < 4; i++)
-    leds.setLed(2, row, testColumn, true);
-    */
 }

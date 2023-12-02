@@ -15,19 +15,12 @@ bool _current_prev_toggle = false;
 // Input and previous bytes for polling of digital switch values
 byte valuesSwitches[2][SWITCHES_BYTES];
 
-// Sent bytes for swellers
-byte valuesSwellersSent[NO_SWELLERS];
-
 void initSwitches() {
   pinMode(PINS_SWITCHES[DATA], INPUT);
   pinMode(PINS_SWITCHES[CLOCK], OUTPUT);
   pinMode(PINS_SWITCHES[LATCH], OUTPUT);
 
-  pinMode(PIN_SWELLER1, INPUT);
-  pinMode(PIN_SWELLER2, INPUT);
-
   memset(valuesSwitches, 0x0, sizeof(valuesSwitches));
-  memset(valuesSwellersSent, 0x0, sizeof(valuesSwellersSent));
 }
 
 void sendAllSwitches() {
@@ -49,24 +42,6 @@ void sendAllSwitches() {
         sendPiston((byte) number, currentState);
       number++;
     }
-  }
-
-  // Poll all analog values
-  int sweller1_i = analogRead(PIN_SWELLER1);
-  byte sweller1 = (byte) max(0, min(127, map(sweller1_i, 285, 960, 0, 127)));
-  int sweller2_i = analogRead(PIN_SWELLER2);
-  byte sweller2 = (byte) max(0, min(127, map(sweller2_i, 285, 934, 0, 127)));
-
-  // Send sweller values
-  if(abs((int)sweller1 - (int)valuesSwellersSent[0]) > 2) {
-    //Serial.println(sweller1_i);
-    sendSweller1Value(sweller1);
-    valuesSwellersSent[0] = sweller1;
-  }
-  if(abs((int)sweller2 - (int)valuesSwellersSent[1]) > 2) {
-    //Serial.println(sweller2_i);
-    sendSweller2Value(sweller2);
-    valuesSwellersSent[1] = sweller2;
   }
 }
 
