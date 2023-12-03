@@ -1,6 +1,6 @@
 #include "PedalControl.hpp"
 
-#include "MidiControl.hpp"
+#include "MIDIControl.hpp"
 
 #define GET_NOTE(m,p) (36 + (8*m) + p)
 

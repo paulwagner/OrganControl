@@ -1,4 +1,4 @@
-#include "MidiControl.hpp"
+#include "MIDIControl.hpp"
 
 // MIDI driver instance
 #include <USB-MIDI.h>
@@ -39,8 +39,8 @@ void sendPiston(byte number, bool on) {
 }
 
 void sendSwellerValue(byte value, byte channel) {
- // Use foot controller CC==0x04
- const byte controllerNumber = 0x04;
+  // Use foot controller CC==0x04
+  const byte controllerNumber = 0x04;
   MIDI.sendControlChange(controllerNumber, value, channel);
 #ifdef PRINT_MIDI
   Serial.print("SendSweller");

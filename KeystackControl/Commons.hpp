@@ -4,7 +4,7 @@
 
 // Test modes
 //#define TEST_LEDS
-#define PRINT_MIDI
+//#define PRINT_MIDI
 
 // Reverse a byte
 inline byte reverse(byte b) {

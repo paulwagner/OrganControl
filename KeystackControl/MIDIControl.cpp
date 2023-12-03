@@ -1,4 +1,4 @@
-#include "MidiControl.hpp"
+#include "MIDIControl.hpp"
 
 #include "LEDsOutput.hpp"
 

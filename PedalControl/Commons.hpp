@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 // Test modes
-#define PRINT_MIDI
+//#define PRINT_MIDI
 
 // Reverse a byte
 inline byte reverse(byte b) {
