@@ -14,6 +14,10 @@ bool _current_prev_toggle = false;
 
 // Input and previous bytes for polling of digital switch values
 byte valuesSwitches[2][SWITCHES_BYTES];
+// Time of last switch update
+long lastSwitchUpdate = 0;
+// Switch update threshold
+const long switchThreshold = 10; // in ms
 
 // Sent bytes for swellers
 byte valuesSwellersSent[NO_SWELLERS];
@@ -34,7 +38,7 @@ void initSwitches() {
 
 void sendAllSwitches() {
   TOGGLE_CURRENT_PREV
-  
+
   // Poll all digital switch values
   pollDigitalValues(PINS_SWITCHES, &valuesSwitches[CURRENT][0], SWITCHES_BYTES);
 
@@ -47,8 +51,10 @@ void sendAllSwitches() {
     for(int j = 0; j < 8; j++) {
       bool currentState = (bool)(currentByte & (1 << j));
       bool prevState = (bool)(prevByte & (1 << j));
-      if(currentState != prevState)
+      if(currentState != prevState && millis() - lastSwitchUpdate > switchThreshold) {
         sendPiston((byte) number, currentState);
+        lastSwitchUpdate = millis();
+      }
       number++;
     }
   }
