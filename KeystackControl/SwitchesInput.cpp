@@ -14,6 +14,10 @@ bool _current_prev_toggle = false;
 
 // Input and previous bytes for polling of digital switch values
 byte valuesSwitches[2][SWITCHES_BYTES];
+// Time of last switch update
+long lastSwitchUpdate = 0;
+// Switch update threshold
+const long switchThreshold = 30; // in ms
 
 void initSwitches() {
   pinMode(PINS_SWITCHES[DATA], INPUT);
@@ -38,8 +42,10 @@ void sendAllSwitches() {
     for(int j = 0; j < 8; j++) {
       bool currentState = (bool)(currentByte & (1 << j));
       bool prevState = (bool)(prevByte & (1 << j));
-      if(currentState != prevState)
+      if(currentState != prevState && millis() - lastSwitchUpdate > switchThreshold) {
         sendPiston((byte) number, currentState);
+        lastSwitchUpdate = millis();
+      }
       number++;
     }
   }

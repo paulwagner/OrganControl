@@ -17,7 +17,7 @@ byte valuesSwitches[2][SWITCHES_BYTES];
 // Time of last switch update
 long lastSwitchUpdate = 0;
 // Switch update threshold
-const long switchThreshold = 10; // in ms
+const long switchThreshold = 150; // in ms
 
 // Sent bytes for swellers
 byte valuesSwellersSent[NO_SWELLERS];
