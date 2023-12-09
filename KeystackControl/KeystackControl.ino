@@ -12,7 +12,9 @@
 
 void setup() {
   Serial.begin(115200);
+#ifdef PRINT_MIDI
   while(!Serial);
+#endif
 
   initLEDs();
   initSwitches();
